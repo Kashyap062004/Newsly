@@ -1,0 +1,21 @@
+
+.news-bottom-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.news-action-btn {
+  padding: 4px 8px;
+  font-size: 10px;
+  background: #1976d2;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.news-action-btn:hover {
+  background: #1976d2;
+}

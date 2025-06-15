@@ -1,0 +1,105 @@
+const express=require("express")
+const mongoose=require("mongoose")
+const cookieParser=require("cookie-parser")
+const { connectToMongoDB } = require("./connect");
+const app=express();
+require("./utils/dailyDigest");
+const PORT=8000;
+
+const path = require("path");
+const userroute=require("./routes/user")
+const staticroutes=require("./routes/staticRouter")
+const {restrecttologinusers}=require('./middlewares/auth')
+const newsRoute=require("./routes/news")
+const cors = require("cors");
+const router = express.Router();
+const session = require("express-session");
+const passport = require("./service/googleAuth"); 
+const { getUser ,setUser} = require("./service/auth");
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
+
+app.use(express.json());
+const newsRoutes = require("./routes/news");
+app.use("/api/news", newsRoutes);
+const searchRoutes = require("./routes/search");
+app.use("/api/news", searchRoutes);
+require('dotenv').config();
+
+// connectToMongoDB( "mongodb://localhost:27017/short-url").then(() =>
+//   console.log("Mongodb connected")
+// );
+connectToMongoDB(process.env.MONGO_URI).then(() =>
+  console.log("MongoDB Atlas connected")
+).catch((err) => console.error("Connection error:", err));
+
+
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
+app.use(cookieParser());
+app.set("view engine", "ejs");
+app.set("views", path.resolve("./views"));
+
+
+app.use(session({
+  secret: "your-session-secret",
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+app.get('/user/me', (req, res) => {
+  const token = req.cookies?.uid;
+  if (!token) return res.json({ loggedIn: false });
+  const user = getUser(token);
+  if (!user) return res.json({ loggedIn: false });
+  res.json({ loggedIn: true, user });
+});
+
+
+app.get("/home", restrecttologinusers, (req, res) => {
+    res.render("home", { user: req.user });
+});
+app.use("/user",userroute);
+app.use("/",staticroutes);
+
+app.listen(PORT,()=>console.log(`Server started at ${PORT}`));
+
+app.post('/user/logout', (req, res) => {
+  res.clearCookie("uid");
+  res.json({ message: "Logged out" });
+});
+app.get('/google/callback',
+  passport.authenticate('google', {
+    failureRedirect: 'http://localhost:3000',
+    session: true
+  }),
+  (req, res) => {
+    // Set JWT cookie for frontend
+    const token = setUser(req.user);
+    res.cookie("uid", token, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false
+    });
+    // Redirect to frontend
+    const isNewUser = req.user._isNewGoogleUser;
+const redirectUrl = isNewUser
+  ? "http://localhost:3000/login?newuser=1"
+  : "http://localhost:3000/login";
+
+res.redirect(redirectUrl);
+    // res.redirect('http://localhost:3000');
+  }
+);
+
+const aiRoutes = require("./routes/ai");
+app.use("/api/ai", aiRoutes);
+// Serve static files
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+const paymentRoutes = require('./routes/payment');
+app.use('/api/payment', paymentRoutes);

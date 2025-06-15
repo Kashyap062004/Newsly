@@ -1,0 +1,567 @@
+body {
+  background: #f0f2f5;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+.main-container {
+  max-width: 400px;
+  margin:150px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 32px 24px;
+}
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.form-container input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+}
+.form-container button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.switcher {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+.switcher button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  margin: 0 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+.switcher button.active {
+  border-bottom: 2px solid #007bff;
+  color: #007bff;
+}
+.error {
+  color: #d32f2f;
+  text-align: center;
+}
+.success {
+  color: #388e3c;
+  text-align: center;
+}
+/* Make all input fields the same width */
+.form-container input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Style the password field container for relative positioning */
+.form-container .password-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Style the show/hide button inside the password field */
+.form-container .show-hide-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #007bff;
+  background-color: white;
+  font-weight: bold;
+  padding: 0 4px;
+  font-size: 14px;
+  z-index: 2;
+}
+/* News controls (category & search) */
+.news-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  margin: 24px 0 18px 0;
+}
+
+.news-controls select,
+.news-controls input[type="text"] {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+.news-controls button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.news-controls button:hover {
+  background: #0056b3;
+}
+
+/* News list grid */
+.news-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 12px 32px 12px;
+}
+
+/* News card */
+.news-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s;
+  min-height: 340px;
+}
+
+.news-card:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+.news-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  background: #eee;
+}
+
+.news-content {
+  padding: 16px 14px 10px 14px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.news-content h3 {
+  font-size: 1.1rem;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+.news-content p {
+  font-size: 0.97rem;
+  color: #444;
+  margin-bottom: 10px;
+  flex: 1;
+}
+
+.news-content a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.news-content a:hover {
+  text-decoration: underline;
+}
+
+.news-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 8px;
+}
+
+/* Responsive tweaks */
+
+
+
+.news-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 12px 32px 12px;
+  justify-content: flex-start;
+}
+.news-card {
+  width: 380px;
+ 
+  min-height: 340px;
+}
+
+.news-card .MuiSvgIcon-root {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.news-card:hover .MuiSvgIcon-root {
+  opacity: 1;
+  pointer-events: auto;
+} 
+
+
+
+
+
+.news-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  gap: 24px;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 12px 32px 12px;
+}
+
+
+
+
+
+
+
+/* ...existing code... */
+.news-card {
+  position: relative;
+  /* ...existing styles... */
+}
+.news-hover-actions {
+  position: absolute;
+  bottom: 18px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.95);
+  border-radius: 8px;
+  padding: 6px 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  z-index: 2;
+}
+.news-action-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  margin: 0 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: background 0.2s;
+}
+.news-action-btn:hover {
+  background: #115293;
+}
+.news-action-select {
+  padding: 5px 8px;
+  border-radius: 5px;
+  border: 1px solid #1976d2;
+  font-size: 0.97rem;
+  outline: none;
+}
+
+.news-action-btn.small,
+.news-action-select.small {
+  font-size: 1 rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  height: 28px;
+  min-width: unset;
+  justify-content: center;
+  align-items: center;
+}
+.news-action-select.small {
+  padding: 3px 6px;
+}
+.news-bottom-actions {
+  display: flex;
+  /* justify-content: center;
+  align-items: center; */
+  gap: 12px;
+  margin: 16px 10px 0 16px;
+}
+
+.news-action-btn.large,
+.news-action-select.large {
+  font-size: 0.55rem;
+  padding: 10px 22px;
+  border-radius: 10px;
+  height: 8px;
+  min-width: 5px;
+  text-align: center;
+}
+
+.news-action-select.large {
+  padding: 8px 14px;
+}
+
+
+
+
+
+
+
+/* Large tablets and small desktops */
+@media (max-width: 1100px) {
+  .news-list {
+    max-width: 900px;
+    gap: 18px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 900px) {
+  .news-list {
+    max-width: 700px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .news-card {
+    min-height: 260px;
+  }
+  .news-img {
+    height: 120px;
+  }
+}
+
+/* Large smartphones and small tablets */
+@media (max-width: 700px) {
+  .news-list {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 0 4vw 24px 4vw;
+  }
+  .news-card {
+    min-height: 200px;
+  }
+  .news-img {
+    height: 90px;
+  }
+  .news-controls {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* Small smartphones */
+@media (max-width: 400px) {
+  .news-list {
+    padding: 0 2vw 16px 2vw;
+  }
+  .news-card {
+    border-radius: 6px;
+    min-height: 120px;
+  }
+  .news-content {
+    padding: 10px 6px 6px 6px;
+  }
+  .news-content h3 {
+    font-size: 1rem;
+  }
+  .news-content p {
+    font-size: 0.9rem;
+  }
+  .news-controls select,
+  .news-controls input[type="text"] {
+    font-size: 13px;
+    padding: 6px;
+  }
+  .news-controls button {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+}
+
+/* Tablets (portrait and landscape) */
+@media (max-width: 900px) {
+  .main-container {
+    max-width: 90vw;
+    margin: 60px auto 20px auto;
+    padding: 20px 4vw;
+    border-radius: 10px;
+  }
+  .form-container h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Large smartphones and small tablets */
+@media (max-width: 600px) {
+  .main-container {
+    max-width: 98vw;
+    margin: 250px auto 10px auto;
+    padding: 10px 2vw;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+  .form-container h2 {
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+  }
+  .form-container input {
+    font-size: 15px;
+    padding: 8px;
+  }
+  .form-container button {
+    font-size: 15px;
+    padding: 10px;
+  }
+  .switcher button {
+    font-size: 15px;
+    padding: 6px 10px;
+  }
+}
+
+/* Small smartphones */
+@media (max-width: 400px) {
+  .main-container {
+    max-width: 100vw;
+    margin: 4px auto 4px auto;
+    padding: 4px 1vw;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+  .form-container h2 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  .form-container input,
+  .form-container button {
+    font-size: 13px;
+    padding: 6px;
+  }
+  .switcher button {
+    font-size: 13px;
+    padding: 4px 6px;
+  }
+}
+
+/* Google Login Button Styling */
+.login-with-google-btn {
+  transition: background-color .3s, box-shadow .3s !important;
+  padding: 12px 16px 12px 42px !important;
+  border: none !important;
+  border-radius: 3px !important;
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25) !important;
+  color: #444 !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif !important;
+  background: #fff url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTcuNiA5LjJsLS4xLTEuOEg5djMuNGg0LjhDMTMuNiAxMiAxMyAxMyAxMiAxMy42djIuMmgzYTguOCA4LjggMCAwIDAgMi42LTYuNnoiIGZpbGw9IiM0Mjg1RjQiIGZpbGwtcnVsZT0ibm9uemVybyIvPjxwYXRoIGQ9Ik05IDE4YzIuNCAwIDQuNS0uOCA2LTIuMmwtMy0yLjJhNS40IDUuNCAwIDAgMS04LTIuOUgxVjEzYTkgOSAwIDAgMCA4IDV6IiBmaWxsPSIjMzRBODUzIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNNCAxMC43YTUuNCA1LjQgMCAwIDEgMC0zLjRWNUgxYTkgOSAwIDAgMCAwIDhsMy0yLjN6IiBmaWxsPSIjRkJCQzA1IiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNOSAzLjZjMS4zIDAgMi41LjQgMy40IDEuM0wxNSAyLjNBOSA5IDAgMCAwIDEgNWwzIDIuNGE1LjQgNS40IDAgMCAxIDUtMy43eiIgZmlsbD0iI0VBNDMzNSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHBhdGggZD0iTTAgMGgxOHYxOEgweiIvPjwvZz48L3N2Zz4=') no-repeat 12px 11px !important;
+  cursor: pointer !important;
+  margin-top: 8px !important;
+  margin-bottom: 8px !important;
+  text-align: left !important;
+  border-radius: 50px !important;
+}
+.login-with-google-btn:hover {
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .25) !important;
+}
+.login-with-google-btn:active {
+  background-color: #eeeeee !important;
+}
+.login-with-google-btn:focus {
+  outline: none;
+  box-shadow:
+    0 -1px 0 rgba(0, 0, 0, .04),
+    0 2px 4px rgba(0, 0, 0, .25),
+    0 0 0 3px #c8dafc;
+}
+.login-with-google-btn:disabled {
+  filter: grayscale(100%);
+  background-color: #ebebeb;
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
+  cursor: not-allowed;
+}
+
+/* Responsive styles for Google Login Button */
+@media (max-width: 900px) {
+  .login-with-google-btn {
+    font-size: 15px;
+    padding: 10px 12px 10px 38px;
+    background-position: 10px 9px;
+  }
+}
+@media (max-width: 600px) {
+  .login-with-google-btn {
+    font-size: 14px;
+    padding: 8px 8px 8px 34px;
+    background-position: 8px 7px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+}
+@media (max-width: 400px) {
+  .login-with-google-btn {
+    font-size: 13px;
+    padding: 6px 4px 6px 28px;
+    background-position: 6px 5px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+}
+
+.darkmode-toggle-btn {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 2000;
+  background: #23272a;
+  color: #fff;
+  border: 1.5px solid #1976d2;
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* Responsive: Move button down and shrink on mobile */
+@media (max-width: 700px) {
+  .darkmode-toggle-btn {
+    top: 123px;
+    right: 10px;
+    padding: 4px 12px;
+    font-size: 15px;
+  }
+}
+@media (max-width: 400px) {
+  .darkmode-toggle-btn {
+    top: 180px !important;
+    right: 4px;
+    padding: 2px 8px;
+    font-size: 13px;
+  }
+}
+

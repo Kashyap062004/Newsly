@@ -1,14 +1,13 @@
 # Root .gitignore
 
 # Ignore node_modules in both client and server
-login-client/node_modules/
-login-server/node_modules/
+node_modules
 
 # Ignore build and coverage
-login-client/build/
-login-client/coverage/
-login-server/build/
-login-server/coverage/
+client/build/
+client/coverage/
+server/build/
+server/coverage/
 
 # Ignore environment files
 *.env
@@ -22,3 +21,17 @@ yarn-error.log*
 # Ignore OS files
 .DS_Store
 Thumbs.db
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
