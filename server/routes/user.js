@@ -11,7 +11,7 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
 
 const nodemailer = require("nodemailer");
 const { setOtp, getOtp, deleteOtp } = require("../service/otpStore");
-const User = require("../models/user");
+const {User} = require("../models/user");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
@@ -26,6 +26,9 @@ router.get('/google/callback',
   }),
   (req, res) => {
     // Set JWT cookie for frontend
+    if (req.user._isNewGoogleUser) {
+    req.session.showWelcome = true;
+  }
     const token = setUser(req.user);
     res.cookie("uid", token, {
       httpOnly: true,
@@ -95,7 +98,14 @@ function authMiddleware(req, res, next) {
 router.get('/profile', authMiddleware, async (req, res) => {
   const user = await User.findOne({ email: req.user.email }).select("-password");
   if (!user) return res.status(404).json({ error: "User not found" });
-  res.json(user);
+  res.json({
+    name: user.name,
+    email: user.email,
+    avatarUrl: user.avatarUrl,
+    subscribe: user.subscribe,
+    subscriptionExpires: user.subscriptionExpires,
+    showWelcome,
+  });
 });
 
 // Get liked articles

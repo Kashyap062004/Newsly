@@ -74,28 +74,23 @@ const handleSend = async (e) => {
   e.preventDefault();
   if (!input.trim()) return;
 
-  // Show user's message
-  setMessages((msgs) => [
-    ...msgs,
-    { from: "user", text: input }
-  ]);
+  setMessages((msgs) => [...msgs, { from: "user", text: input }]);
   setInput("");
 
-  // Fetch bot response
   const res = await fetch("http://localhost:8000/api/ai/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message: input }),
   });
+
   const data = await res.json();
-  // Show bot's message, with PaymentButton if needed
+
   setMessages((msgs) => [
     ...msgs,
-    data.showPay
-      ? { from: "bot", text: <>{data.response} <PaymentButton /></> }
-      : { from: "bot", text: data.response }
+    { from: "bot", text: data.response, showPay: data.showPay || false },
   ]);
 };
+
   return (
     <div>
       <div
@@ -114,11 +109,17 @@ const handleSend = async (e) => {
           <div className="chatbot-messages">
             {messages.map((msg, i) => (
               <div key={i} className={`chatbot-msg ${msg.from}`}>
-                {msg.text}
+                <div>{msg.text}</div>
+                {msg.from === "bot" && msg.showPay && (
+                  <div style={{ marginTop: "10px" }}>
+                    <PaymentButton />
+                  </div>
+                )}
               </div>
             ))}
             <div ref={messagesEndRef} />
           </div>
+
           {/* Language dropdown for translate */}
           {showLangDropdown && (
             <form

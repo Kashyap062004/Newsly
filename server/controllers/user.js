@@ -4,6 +4,7 @@ const { setUser, getUser } = require("../service/auth");
 const nodemailer = require("nodemailer");
 const { setOtp, getOtp, deleteOtp } = require("../service/otpStore");
 const router = require("express").Router();
+
 // Signup with OTP
 async function handleUserSignup(req, res) {
     const { name, email, password } = req.body;

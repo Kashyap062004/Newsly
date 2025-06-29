@@ -17,6 +17,8 @@ function App() {
   const [checking, setChecking] = useState(true);
   const [category, setCategory] = useState("Home");
   const [search, setSearch] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+
   const chatBotRef = useRef();
   const [darkMode, setDarkMode] = useState(() => {
   return localStorage.getItem("darkMode") === "true";
@@ -36,6 +38,7 @@ useEffect(() => {
     .then(res => res.json())
     .then(data => {
       setIsLoggedIn(data.loggedIn);
+      setUserEmail(data.user?.email);
       setChecking(false);
     })
     .catch(() => setChecking(false));

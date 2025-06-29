@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./CSS/Profile.css";
+import "./CSS/App.css"
 import { showSuccess, showError } from "./toast";
 import { isValidPassword } from "../utils/passwordValidation";
 export default function ForgotPasswordModal({ show, onClose }) {
@@ -92,11 +93,12 @@ export default function ForgotPasswordModal({ show, onClose }) {
             />
             <div className="password-wrapper">
               <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="New Password"
               value={forgotNewPass}
               onChange={e => setForgotNewPass(e.target.value)}
               required
+              
             />
             <button
             type="button"

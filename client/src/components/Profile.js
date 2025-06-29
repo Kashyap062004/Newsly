@@ -22,6 +22,9 @@ export default function Profile({ category, setCategory, search, setSearch }) {
    const [interests, setInterests] = useState([]);
   const [savingInterests, setSavingInterests] = useState(false);
   const [showInterestsModal, setShowInterestsModal] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
+const [showPassword, setShowPassword] = useState({ old: false, new: false });
+
 
   
 
@@ -32,8 +35,12 @@ export default function Profile({ category, setCategory, search, setSearch }) {
       .then(data => {
         setProfile(data);
         setNewName(data.name);
+        if (data.showWelcome) {
+        showSuccess("Welcome to Newsly! Your password is 123456. You can change it from the Profile section.");
+      }
       });
-
+       
+    
     fetch("http://localhost:8000/user/stats", { credentials: "include" })
       .then(res => res.json())
       .then(data => setStats(data));
@@ -246,13 +253,34 @@ const handleUnsubscribe = () => {
               <span className="profile-stat-num">{stats.read}</span>
             </div>
           </div>
-          <div className="profile-field">
+          {/* <div className="profile-field">
   <b>Subscription:</b>
   <span className="profile-value">
     {profile.subscribe ? "Active (Unlimited Chatbot)" : "Not Subscribed"}
   </span>
-  {!profile.subscribe && <PaymentButton />}
+  {!profile.subscribe &&  <PaymentButton email={profile.email}  />}
+</div> */}
+
+
+<div className="profile-field">
+  <b>Subscription:</b>
+  <span className="profile-value">
+    {profile.subscribe
+      ? `Active (Unlimited Chatbot)${
+          profile.subscriptionExpires
+            ? ` — Expires on ${new Date(profile.subscriptionExpires).toLocaleDateString('en-IN', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+              })}`
+            : ""
+        }`
+      : "Not Subscribed"}
+  </span>
+  {!profile.subscribe && <PaymentButton email={profile.email} />}
 </div>
+
+
 <div className="profile-field">
   <b>Interested Categories:</b>
   {interests.length === 0 ? (
@@ -358,24 +386,42 @@ const handleUnsubscribe = () => {
         <div className="profile-modal-bg">
           <form className="profile-modal-form" onSubmit={handleChangePassword}>
             <h3>Change Password</h3>
-            <div>
+            <div className="password-wrapper">
               <input
-                type="password"
+                type={showPassword.old ? "text" : "password"}
                 placeholder="Old Password"
                 value={passwords.old}
                 onChange={e => setPasswords(p => ({ ...p, old: e.target.value }))}
                 required
               />
+              <button
+                type="button"
+                className="show-hide-btn"
+                onClick={() => setShowPassword(p => ({ ...p, old: !p.old }))}
+                tabIndex={-1}
+              >
+                {showPassword.old ? "Hide" : "Show"}
+              </button>
             </div>
-            <div>
+
+            <div className="password-wrapper">
               <input
-                type="password"
+                type={showPassword.new ? "text" : "password"}
                 placeholder="New Password"
                 value={passwords.new}
                 onChange={e => setPasswords(p => ({ ...p, new: e.target.value }))}
                 required
               />
+              <button
+                type="button"
+                className="show-hide-btn"
+                onClick={() => setShowPassword(p => ({ ...p, new: !p.new }))}
+                tabIndex={-1}
+              >
+                {showPassword.new ? "Hide" : "Show"}
+              </button>
             </div>
+
             <div className="profile-modal-actions">
               <button
                 type="button"

@@ -1,7 +1,8 @@
 const express = require("express");
 const axios = require("axios");
 const router = express.Router();
-const User=require("../models/user");
+const {User}=require("../models/user");
+const checkSubscription = require("../middlewares/checkSubscription");
 require("dotenv").config();
 
 const MISTRAL_API_KEY = process.env.MISTRAL_API_KEY; // Replace with your actual key
@@ -85,7 +86,7 @@ async function getTopHeadlines(category = "general", limit = 5) {
 // };
 
 
-router.post("/chat",restrecttologinusers, async (req, res) => {
+router.post("/chat",restrecttologinusers,checkSubscription, async (req, res) => {
   const { message } = req.body;
   const email=req.user.email;
   const user=await User.findOne({email});
@@ -99,13 +100,6 @@ router.post("/chat",restrecttologinusers, async (req, res) => {
       await user.save();
     }
 
-    
-    if (user.requestsToday >=2) {
-      return res.json({ 
-        response: "You have reached your daily limit. Please subscribe for unlimited access.", 
-        showPay: true 
-      });
-    }
     user.requestsToday += 1;
     await user.save();
   }
@@ -126,7 +120,7 @@ router.post("/chat",restrecttologinusers, async (req, res) => {
   } catch (extractErr) {
     console.error("Extraction error:", extractErr);
     return res.json({ 
-      response: `Could not access the article: ${extractErr.message}. Please make sure the URL is publicly accessible.`
+      response: `Could not access the article: ${extractErr.message}. Please make sure the URL is publicly accessible.`,
     });
   }
 }

@@ -9,17 +9,21 @@ const PORT=8000;
 const path = require("path");
 const userroute=require("./routes/user")
 const staticroutes=require("./routes/staticRouter")
-const {restrecttologinusers}=require('./middlewares/auth')
+const {restrecttologinusers,authMiddleware}=require('./middlewares/auth')
 const newsRoute=require("./routes/news")
 const cors = require("cors");
 const router = express.Router();
 const session = require("express-session");
 const passport = require("./service/googleAuth"); 
 const { getUser ,setUser} = require("./service/auth");
+
+const { User } = require("./models/user");
 app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true
 }));
+// app.use(express.json());
+app.use('/api/payment/webhook', express.raw({ type: 'application/json' }));
 
 app.use(express.json());
 const newsRoutes = require("./routes/news");
@@ -103,3 +107,25 @@ app.use("/api/ai", aiRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 const paymentRoutes = require('./routes/payment');
 app.use('/api/payment', paymentRoutes);
+
+router.get("/", authMiddleware, async (req, res) => {
+  const user = await User.findById(req.user._id);
+  res.json({ recommendations: user.recommendations || [] });
+});
+
+const activityRoutes = require("./routes/activity");
+app.use("/api/activity", activityRoutes);
+
+const commentRoutes = require("./routes/comment");
+app.use("/api/comments", commentRoutes);
+router.get("/trending", async (req, res) => {
+  const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const trending = await Comment.aggregate([
+    { $match: { createdAt: { $gte: since } } },
+    { $group: { _id: "$articleUrl", count: { $sum: 1 } } },
+    { $sort: { count: -1 } },
+    { $limit: 5 }
+  ]);
+  res.json(trending);
+});
+

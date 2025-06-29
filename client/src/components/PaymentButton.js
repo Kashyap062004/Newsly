@@ -1,45 +1,67 @@
-import React from 'react';
+import React from "react";
+const razorpayKey = process.env.REACT_APP_RAZOR_PAY_KEY;
+export default function PaymentButton({ email }) {
+  const handlePayment = async () => {
+    const res = await fetch("http://localhost:8000/api/payment/create-order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ amount: 50000 }), // Rs. 500
+    });
 
+    const order = await res.json();
+    console.log("Order =", order);
 
-function PaymentButton() {
-  const makePayment = async () => {
-       const response = await fetch('http://localhost:8000/api/payment/create-order', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ amount: 50000}),
-        });
-         const order = await response.json();
-         console.log(`\n  Order =${order}\n`);
-         const options = {
-    key: 'rzp_test_WAl9yKMvDgn7OM', // Replace with your Razorpay key ID
-    amount: order.amount,
-    currency: order.currency,
-    order_id: order.id,
-    name: 'Newsly',
-    description: 'Test Transaction',
-    handler: function (response) {
-      alert('Payment successful!');
-      console.log(response);
-    },
-    prefill: {
-      name: 'John Doe',
-      email: 'john@example.com',
-      contact: '9999999999',
-    },
-    theme: {
-      color: '#3399cc',
-    },
+    const options = {
+      key: razorpayKey, // replace with your Razorpay test key
+      amount: order.amount,
+      currency: "INR",
+      name: "Newsly Subscription",
+      description: "Unlimited chatbot access",
+      order_id: order.id,
+      handler: async function (response) {
+        try {
+          const verifyRes = await fetch("http://localhost:8000/api/payment/verify", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              email,
+            }),
+          });
+
+          const data = await verifyRes.json();
+
+          if (data.success) {
+            alert("✅ Payment successful! Subscription activated.");
+            window.location.reload(); // reload Profile to reflect updated status
+          } else {
+            alert("❌ Payment verification failed.");
+          }
+        } catch (err) {
+          console.error("Error verifying payment", err);
+        }
+      },
+      prefill: {
+        email: email,
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
   };
 
-  const razorpay = new window.Razorpay(options);
-  razorpay.open(); //due to <script src="https://checkout.razorpay.com/v1/checkout.js"></script> in index.html
-
-  };
-
-  return <button  onClick={makePayment}>Pay ₹500</button>;
+  return (
+    <button onClick={handlePayment} className="profile-btn">
+      Subscribe ₹500
+    </button>
+  );
 }
-
-export default PaymentButton;

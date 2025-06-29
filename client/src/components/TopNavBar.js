@@ -21,7 +21,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 
 const categories = [
-  "Home", "India", "World", "Business", "Tech", "Cricket", "Sports", "Entertainment", "Astro", "TV", "Education", "Life & Style", "Web Series"
+  "Home","Recommended", "India", "World", "Business", "Tech", "Cricket", "Sports", "Entertainment", "Astro", "TV", "Education", "Life & Style", "Web Series"
 ];
 
 function TopNavBar({ category, setCategory, search, setSearch, onSearch }) {
