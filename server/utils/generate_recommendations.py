@@ -53,3 +53,7 @@ for user_id, recs in recommendations.items():
         print(f"Failed for {user_id}: {e}")
 
 print("Recommendations updated in MongoDB.")
+print("Similarity matrix computed")
+print(f"User-item matrix:\n{user_item.head()}")
+print(f"Similarity DF:\n{similarity_df.head()}")
+print(f"Generated recommendations: {recommendations}")

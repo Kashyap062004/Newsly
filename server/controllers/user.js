@@ -1,4 +1,4 @@
-const User = require("../models/user");
+const {User} = require("../models/user");
 const { v4: uuidv4 } = require("uuid");
 const { setUser, getUser } = require("../service/auth");
 const nodemailer = require("nodemailer");
@@ -27,7 +27,18 @@ async function handleUserSignup(req, res) {
         from: "kashyap.trivedi2004@gmail.com",
         to: email,
         subject: "Your OTP for Newsly Registration",
-        text: `Your OTP is: ${otp}`,
+        text: `Dear ${name},
+
+Thank you for registering with Newsly.
+
+Your One-Time Password (OTP) for completing the registration process is: ${otp}
+
+Please enter this OTP to verify your email address. Do not share this code with anyone.
+
+If you did not initiate this request, please ignore this message.
+
+Best regards,  
+Newsly Team`,
     });
 
     setOtp(email, otp);

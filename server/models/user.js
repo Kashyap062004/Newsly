@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     requestsToday: { type: Number, default: 0 },
     lastRequestDate: { type: Date, default: null },
     subscriptionExpiry: { type: Date, },
+    recommendations: { type: [String], default: [] }, 
 }, { timestamps: true });
 const userActivitySchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },

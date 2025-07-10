@@ -28,17 +28,23 @@ app.use('/api/payment/webhook', express.raw({ type: 'application/json' }));
 app.use(express.json());
 const newsRoutes = require("./routes/news");
 app.use("/api/news", newsRoutes);
-const searchRoutes = require("./routes/search");
-app.use("/api/news", searchRoutes);
+// const searchRoutes = require("./routes/search");
+// app.use("/api/news", searchRoutes);
 require('dotenv').config();
 
 // connectToMongoDB( "mongodb://localhost:27017/short-url").then(() =>
 //   console.log("Mongodb connected")
 // );
-connectToMongoDB(process.env.MONGO_URI).then(() =>
-  console.log("MongoDB Atlas connected")
-).catch((err) => console.error("Connection error:", err));
+// connectToMongoDB(process.env.MONGO_URI).then(() =>
+//   console.log("MongoDB Atlas connected")
+// ).catch((err) => console.error("Connection error:", err));
 
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("MongoDB connected ✅"))
+.catch((err) => console.error("MongoDB connection error ❌", err));
 
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));

@@ -104,7 +104,6 @@ router.get('/profile', authMiddleware, async (req, res) => {
     avatarUrl: user.avatarUrl,
     subscribe: user.subscribe,
     subscriptionExpires: user.subscriptionExpires,
-    showWelcome,
   });
 });
 
@@ -220,11 +219,22 @@ router.post('/forgot-password', async (req, res) => {
   await transporter.sendMail({
     from: "kashyap.trivedi2004@gmail.com",
     to: email,
-    subject: "Your OTP for Newsly Password Reset",
-    text: `Your OTP is: ${otp}`,
+     subject: "Newsly Password Reset - OTP Verification",
+  text: `Dear ${user.name},
+
+We received a request to reset your password on Newsly.
+
+Your One-Time Password (OTP) for password reset is: ${otp}
+
+Please enter this OTP to proceed with resetting your password. Do not share this code with anyone.
+
+If you did not request a password reset, please ignore this email or contact support.
+
+Best regards,  
+The Newsly Team`
   });
 
-  res.json({ message: "OTP sent to email" });
+  res.json({ message: "An OTP has been sent to your registered email address" });
 });
 
 // Reset password with OTP

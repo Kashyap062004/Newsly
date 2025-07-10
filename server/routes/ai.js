@@ -100,8 +100,16 @@ router.post("/chat",restrecttologinusers,checkSubscription, async (req, res) => 
       await user.save();
     }
 
+    const isDigest = req.headers["x-dailydigest"] === "true";
+  if (!isDigest && !user.subscribe) {
+    if (!user.lastRequestDate || user.lastRequestDate.toDateString() !== today) {
+      user.requestsToday = 0;
+      user.lastRequestDate = new Date();
+      await user.save();
+    }
     user.requestsToday += 1;
     await user.save();
+  }
   }
   try {
     // Summarization command

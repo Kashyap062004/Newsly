@@ -10,8 +10,6 @@ const API_KEYS = [
   process.env.NEWS_API_KEY_4
 ];
 
-console.log(API_KEYS)
-
 async function fetchWithFallback(urls) {
   let lastError;
   for (const url of urls) {

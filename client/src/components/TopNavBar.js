@@ -13,32 +13,34 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import Button from "@mui/material/Button";
 import MenuIcon from "@mui/icons-material/Menu";
-import { gsap } from "gsap";
-import { Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useNavigate, useLocation } from "react-router-dom";
-
-
+import { gsap } from "gsap";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const categories = [
-  "Home","Recommended", "India", "World", "Business", "Tech", "Cricket", "Sports", "Entertainment", "Astro", "TV", "Education", "Life & Style", "Web Series"
+  "Home", "Recommended", "India", "World", "Business", "Tech", "Cricket",
+  "Sports", "Entertainment", "Astro", "TV", "Education", "Life & Style", "Web Series"
 ];
 
 function TopNavBar({ category, setCategory, search, setSearch, onSearch }) {
   const navRef = useRef();
   const [anchorEl, setAnchorEl] = useState(null);
   const [userMenuAnchor, setUserMenuAnchor] = useState(null);
-  
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
     gsap.from(navRef.current, { y: -80, opacity: 1, duration: 1, ease: "power3.out" });
   }, []);
 
   const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
   const handleMenuClose = () => setAnchorEl(null);
-    const navigate = useNavigate();
-  const location = useLocation();
 
-   const handleCategoryClick = (cat) => {
+  const handleUserMenuOpen = (event) => setUserMenuAnchor(event.currentTarget);
+  const handleUserMenuClose = () => setUserMenuAnchor(null);
+
+  const handleCategoryClick = (cat) => {
     if (setCategory) setCategory(cat);
     if (location.pathname !== "/feed") {
       navigate("/feed");
@@ -46,13 +48,12 @@ function TopNavBar({ category, setCategory, search, setSearch, onSearch }) {
     handleMenuClose();
   };
 
-
-  const handleUserMenuOpen = (event) => setUserMenuAnchor(event.currentTarget);
-  const handleUserMenuClose = () => setUserMenuAnchor(null);
- const handleSearch = (e) => {
-  e.preventDefault();
-  if (onSearch) onSearch(search);
-};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (onSearch && typeof onSearch === "function") {
+      onSearch(search);
+    }
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }} ref={navRef}>
@@ -83,33 +84,34 @@ function TopNavBar({ category, setCategory, search, setSearch, onSearch }) {
           >
             📰 Newsly
           </Typography>
-          {/* Desktop categories */}
 
+          {/* Desktop categories */}
           <Box sx={{ display: { xs: "none", md: "flex" }, flexGrow: 1, overflowX: "auto" }}>
-  {categories.map((cat) => (
-    <MenuItem
-      key={cat}
-      selected={category === cat}
-      onClick={() => handleCategoryClick(cat)} // <-- use handleCategoryClick here!
-      sx={{
-        color: category === cat ? "#fff" : "#e3e3e3",
-        background: category === cat ? "#1565c0" : "transparent",
-        borderRadius: 2,
-        fontWeight: category === cat ? 700 : 500,
-        minWidth: 80,
-        fontSize: { xs: "0.95rem", sm: "1.05rem" },
-        transition: "all 0.2s",
-        mx: 0.5,
-        "&:hover": {
-          background: "#115293",
-          color: "#fff"
-        }
-      }}
-    >
-      {cat}
-    </MenuItem>
-  ))}
-</Box>
+            {categories.map((cat) => (
+              <MenuItem
+                key={cat}
+                selected={category === cat}
+                onClick={() => handleCategoryClick(cat)}
+                sx={{
+                  color: category === cat ? "#fff" : "#e3e3e3",
+                  background: category === cat ? "#1565c0" : "transparent",
+                  borderRadius: 2,
+                  fontWeight: category === cat ? 700 : 500,
+                  minWidth: 80,
+                  fontSize: { xs: "0.95rem", sm: "1.05rem" },
+                  transition: "all 0.2s",
+                  mx: 0.5,
+                  "&:hover": {
+                    background: "#115293",
+                    color: "#fff"
+                  }
+                }}
+              >
+                {cat}
+              </MenuItem>
+            ))}
+          </Box>
+
           {/* Mobile hamburger menu */}
           <Box sx={{ display: { xs: "flex", md: "none" }, alignItems: "center" }}>
             <IconButton
@@ -126,9 +128,7 @@ function TopNavBar({ category, setCategory, search, setSearch, onSearch }) {
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
               onClose={handleMenuClose}
-              PaperProps={{
-                sx: { bgcolor: "#1976d2", color: "#fff" }
-              }}
+              PaperProps={{ sx: { bgcolor: "#1976d2", color: "#fff" } }}
             >
               {categories.map((cat) => (
                 <MenuItem
@@ -153,30 +153,31 @@ function TopNavBar({ category, setCategory, search, setSearch, onSearch }) {
               ))}
             </Menu>
           </Box>
-          {/* Search, social, logout, and user menu */}
+
+          {/* Search + Icons */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-  <form onSubmit={handleSearch} style={{ display: "flex", alignItems: "center" }}>
-    <InputBase
-      placeholder="Search news…"
-      value={search}
-      onChange={e => setSearch(e.target.value)}
-      sx={{
-        ml: 1,
-        flex: 1,
-        background: "#fff",
-        borderRadius: 1,
-        px: 1,
-        fontSize: 16,
-        width: { xs: 80, sm: 140, md: 180 },
-        color: "#222"
-      }}
-      inputProps={{ "aria-label": "search" }}
-    />
-    <IconButton type="submit" sx={{ p: "6px", color: "#fff" }} aria-label="search">
-      <SearchIcon />
-    </IconButton>
-              
+            <form onSubmit={handleSubmit} style={{ display: "flex", alignItems: "center" }}>
+              <InputBase
+                placeholder="Search news…"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                sx={{
+                  ml: 1,
+                  flex: 1,
+                  background: "#fff",
+                  borderRadius: 1,
+                  px: 1,
+                  fontSize: 16,
+                  width: { xs: 80, sm: 140, md: 180 },
+                  color: "#222"
+                }}
+                inputProps={{ "aria-label": "search" }}
+              />
+              <IconButton type="submit" sx={{ p: "6px", color: "#fff" }} aria-label="search">
+                <SearchIcon />
+              </IconButton>
             </form>
+
             <IconButton href="https://facebook.com" target="_blank" sx={{ color: "#fff" }}>
               <FacebookIcon />
             </IconButton>
@@ -186,6 +187,7 @@ function TopNavBar({ category, setCategory, search, setSearch, onSearch }) {
             <IconButton href="https://youtube.com" target="_blank" sx={{ color: "#fff" }}>
               <YouTubeIcon />
             </IconButton>
+
             <Button color="inherit" onClick={async () => {
               await fetch("http://localhost:8000/user/logout", {
                 method: "POST",
@@ -195,21 +197,16 @@ function TopNavBar({ category, setCategory, search, setSearch, onSearch }) {
             }}>
               Logout
             </Button>
+
             {/* User menu */}
-            <IconButton
-              color="inherit"
-              onClick={handleUserMenuOpen}
-              sx={{ ml: 1 }}
-            >
+            <IconButton color="inherit" onClick={handleUserMenuOpen} sx={{ ml: 1 }}>
               <AccountCircleIcon />
             </IconButton>
             <Menu
               anchorEl={userMenuAnchor}
               open={Boolean(userMenuAnchor)}
               onClose={handleUserMenuClose}
-              PaperProps={{
-                sx: { bgcolor: "#1976d2", color: "#fff" }
-              }}
+              PaperProps={{ sx: { bgcolor: "#1976d2", color: "#fff" } }}
             >
               <MenuItem component={Link} to="/liked" onClick={handleUserMenuClose}>
                 ❤️ Liked Articles

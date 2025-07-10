@@ -147,6 +147,18 @@ const handleSend = async (e) => {
               >
                 <option value="hindi">Hindi</option>
                 <option value="gujarati">Gujarati</option>
+                <option value="marathi">Marathi</option>
+                <option value="bengali">Bengali</option>
+                <option value="tamil">Tamil</option>
+                <option value="telugu">Telugu</option>
+                <option value="kannada">Kannada</option>
+                <option value="malayalam">Malayalam</option>
+                <option value="punjabi">Punjabi</option>
+                <option value="urdu">Urdu</option>
+                <option value="oriya">Oriya</option>
+                <option value="assamese">Assamese</option>
+                <option value="sanskrit">Sanskrit</option>
+                <option value="nepali">Nepali</option>
                 <option value="french">French</option>
                 <option value="german">German</option>
                 <option value="spanish">Spanish</option>
