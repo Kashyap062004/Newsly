@@ -18,15 +18,27 @@ const passport = require("./service/googleAuth");
 const { getUser ,setUser} = require("./service/auth");
 
 const { User } = require("./models/user");
+
+
+app.options('*', cors({
+  origin: 'https://newsly-live.netlify.app',
+  credentials: true
+}));
+
 // app.use(cors({
 //   origin: 'http://localhost:3000',
 //   credentials: true
 // }));
 
-app.use(cors());
+// app.use(cors());
 // app.use(cors({
 //   credentials: true                // ✅ allow cookies/token
 // }));
+
+app.use(cors({
+  origin: 'https://newsly-live.netlify.app',
+  credentials: true
+}));
 
 // app.use(express.json());
 app.use('/api/payment/webhook', express.raw({ type: 'application/json' }));
