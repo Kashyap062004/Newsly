@@ -24,17 +24,17 @@ const { User } = require("./models/user");
 //   credentials: true
 // }));
 
-app.use(cors());
+// app.use(cors());
 // app.use(cors({
 //   credentials: true                // ✅ allow cookies/token
 // }));
 
-// const corsOptions = {
-//   origin: 'https://newsly-live.netlify.app',
-//   credentials: true
-// };
+const corsOptions = {
+  origin: 'https://newsly-live.netlify.app',
+  credentials: true
+};
 
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
 // app.use(express.json());
 app.use('/api/payment/webhook', express.raw({ type: 'application/json' }));
