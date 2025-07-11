@@ -34,6 +34,11 @@ app.use(cors({
   credentials: true
 }));
 
+app.options('*', cors({
+  origin: 'https://newsly-live.netlify.app',
+  credentials: true
+}));
+
 // app.use(express.json());
 app.use('/api/payment/webhook', express.raw({ type: 'application/json' }));
 
