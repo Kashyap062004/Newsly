@@ -29,15 +29,13 @@ const { User } = require("./models/user");
 //   credentials: true                // ✅ allow cookies/token
 // }));
 
-app.use(cors({
+const corsOptions = {
   origin: 'https://newsly-live.netlify.app',
   credentials: true
-}));
+};
 
-app.options('*', cors({
-  origin: 'https://newsly-live.netlify.app',
-  credentials: true
-}));
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // app.use(express.json());
 app.use('/api/payment/webhook', express.raw({ type: 'application/json' }));
