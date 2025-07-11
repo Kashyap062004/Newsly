@@ -19,12 +19,6 @@ const { getUser ,setUser} = require("./service/auth");
 
 const { User } = require("./models/user");
 
-
-app.options('*', cors({
-  origin: 'https://newsly-live.netlify.app',
-  credentials: true
-}));
-
 // app.use(cors({
 //   origin: 'http://localhost:3000',
 //   credentials: true
