@@ -47,7 +47,7 @@ require('dotenv').config();
 // ).catch((err) => console.error("Connection error:", err));
 // console.log("process.env.MONGO_URI", process.env.MONGO_URI);
 
-mongoose.connect("mongodb+srv://kashyaptrivedi2004:dNCtq90uhJ9JBqD4@cluster0.nhe0zp0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
