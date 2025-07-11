@@ -5,14 +5,14 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { showSuccess } from "./toast";
 import { FaShareAlt } from "react-icons/fa";
 import "./CSS/bookmark.css";
-
+import config from "../config";
 export default function LikedArticles({ onChatBotRequest }) {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hoveredIdx, setHoveredIdx] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8000/user/liked", { credentials: "include" })
+    fetch(`${config.BACKEND_API}/user/liked`, { credentials: "include" })
       .then((res) => res.json())
       .then((data) => {
         setArticles(data.likedArticles || []);
@@ -21,7 +21,7 @@ export default function LikedArticles({ onChatBotRequest }) {
   }, []);
 
   const handleDelete = async (url) => {
-    await fetch("http://localhost:8000/user/like", {
+    await fetch(`${config.BACKEND_API}/user/like`, {
       method: "DELETE",
       credentials: "include",
       headers: { "Content-Type": "application/json" },

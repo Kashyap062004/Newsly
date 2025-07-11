@@ -6,6 +6,8 @@ import React, {
   useImperativeHandle,
 } from "react";
 import "./CSS/ChatBot.css";
+import config from "../config";
+
 import PaymentButton from "./PaymentButton";
 const ChatBot = forwardRef(function ChatBot({ onSend }, ref) {
   const [open, setOpen] = useState(false);
@@ -77,7 +79,7 @@ const handleSend = async (e) => {
   setMessages((msgs) => [...msgs, { from: "user", text: input }]);
   setInput("");
 
-  const res = await fetch("http://localhost:8000/api/ai/chat", {
+  const res = await fetch(`${config.BACKEND_API}/api/ai/chat`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message: input }),

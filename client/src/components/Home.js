@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Login from "./Login";
 import Signup from "./Signup";
 import NewsFeed from "./NewsFeed";
-
+import config from "../config";
 
 function App() {
   const [showLogin, setShowLogin] = useState(true);
@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => {
     // Check login status on mount
-    fetch("http://localhost:8000/user/me", {
+    fetch(`${config.BACKEND_API}/user/me`, {
       credentials: "include"
     })
       .then(res => res.json())

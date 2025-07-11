@@ -18,10 +18,17 @@ const passport = require("./service/googleAuth");
 const { getUser ,setUser} = require("./service/auth");
 
 const { User } = require("./models/user");
+// app.use(cors({
+//   origin: 'http://localhost:3000',
+//   credentials: true
+// }));
+
+// app.use(cors());
 app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
+  origin: 'http://localhost:3000', // ✅ specific allowed origin
+  credentials: true                // ✅ allow cookies/token
 }));
+
 // app.use(express.json());
 app.use('/api/payment/webhook', express.raw({ type: 'application/json' }));
 
@@ -38,8 +45,9 @@ require('dotenv').config();
 // connectToMongoDB(process.env.MONGO_URI).then(() =>
 //   console.log("MongoDB Atlas connected")
 // ).catch((err) => console.error("Connection error:", err));
+// console.log("process.env.MONGO_URI", process.env.MONGO_URI);
 
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect("mongodb+srv://kashyaptrivedi2004:dNCtq90uhJ9JBqD4@cluster0.nhe0zp0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -85,7 +93,8 @@ app.post('/user/logout', (req, res) => {
 });
 app.get('/google/callback',
   passport.authenticate('google', {
-    failureRedirect: 'http://localhost:3000',
+    failureRedirect: process.env.FRONTEND_URL,
+    // failureRedirect: 'http://localhost:3000',
     session: true
   }),
   (req, res) => {
@@ -99,11 +108,11 @@ app.get('/google/callback',
     // Redirect to frontend
     const isNewUser = req.user._isNewGoogleUser;
 const redirectUrl = isNewUser
-  ? "http://localhost:3000/login?newuser=1"
-  : "http://localhost:3000/login";
+  ? `${process.env.FRONTEND_URL}/login?newuser=1`
+  : `${process.env.FRONTEND_URL}/login`;
 
 res.redirect(redirectUrl);
-    // res.redirect('http://localhost:3000');
+    res.redirect('http://localhost:3000');
   }
 );
 

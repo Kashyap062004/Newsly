@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./CSS/Comments.css"; // create this file for modal styles
+import config from "../config";
 
 export default function Comments({ articleUrl, onClose }) {
   const [comments, setComments] = useState([]);
@@ -9,7 +10,7 @@ export default function Comments({ articleUrl, onClose }) {
 
   useEffect(() => {
     if (!articleUrl) return;
-    fetch(`http://localhost:8000/api/comments/${encodeURIComponent(articleUrl)}`)
+    fetch(`${config.BACKEND_API}/api/comments/${encodeURIComponent(articleUrl)}`)
       .then(res => res.json())
       .then(setComments);
   }, [articleUrl]);
@@ -18,7 +19,7 @@ export default function Comments({ articleUrl, onClose }) {
     e.preventDefault();
     if (!text.trim()) return;
     setLoading(true);
-    const res = await fetch("http://localhost:8000/api/comments", {
+    const res = await fetch(`${config.BACKEND_API}/api/comments`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -26,7 +27,7 @@ export default function Comments({ articleUrl, onClose }) {
     });
     if (res.ok) {
       setText("");
-      fetch(`http://localhost:8000/api/comments/${encodeURIComponent(articleUrl)}`)
+      fetch(`${config.BACKEND_API}/api/comments/${encodeURIComponent(articleUrl)}`)
         .then(res => res.json())
         .then(setComments);
     }
@@ -34,11 +35,11 @@ export default function Comments({ articleUrl, onClose }) {
   };
 
   const handleLike = async (commentId) => {
-    await fetch(`http://localhost:8000/api/comments/like/${commentId}`, {
+    await fetch(`${config.BACKEND_API}/api/comments/like/${commentId}`, {
       method: "POST",
       credentials: "include",
     });
-    fetch(`http://localhost:8000/api/comments/${encodeURIComponent(articleUrl)}`)
+    fetch(`${config.BACKEND_API}/api/comments/${encodeURIComponent(articleUrl)}`)
       .then(res => res.json())
       .then(setComments);
   };
@@ -46,14 +47,14 @@ export default function Comments({ articleUrl, onClose }) {
   const handleReply = async (commentId) => {
     const reply = replyText[commentId];
     if (!reply || !reply.trim()) return;
-    await fetch(`http://localhost:8000/api/comments/reply/${commentId}`, {
+    await fetch(`${config.BACKEND_API}/api/comments/reply/${commentId}`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: reply }),
     });
     setReplyText((prev) => ({ ...prev, [commentId]: "" }));
-    fetch(`http://localhost:8000/api/comments/${encodeURIComponent(articleUrl)}`)
+    fetch(`${config.BACKEND_API}/api/comments/${encodeURIComponent(articleUrl)}`)
       .then(res => res.json())
       .then(setComments);
   };

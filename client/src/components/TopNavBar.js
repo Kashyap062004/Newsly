@@ -16,6 +16,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { gsap } from "gsap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import config from "../config";
 
 const categories = [
   "Home", "Recommended", "India", "World", "Business", "Tech", "Cricket",
@@ -189,7 +190,7 @@ function TopNavBar({ category, setCategory, search, setSearch, onSearch }) {
             </IconButton>
 
             <Button color="inherit" onClick={async () => {
-              await fetch("http://localhost:8000/user/logout", {
+              await fetch(`${config.BACKEND_API}/user/logout`, {
                 method: "POST",
                 credentials: "include"
               });

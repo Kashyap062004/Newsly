@@ -6,6 +6,7 @@ import ForgotPasswordModal from "./ForgotPasswordModal";
 import { showSuccess, showError } from "./toast";
 import { isValidPassword } from "../utils/passwordValidation";
 import PaymentButton from "./PaymentButton";
+import config from "../config";
 const ALL_CATEGORIES = [
   "India", "World", "Business", "Tech", "Cricket", "Sports", "Entertainment", "Astro", "TV", "Education", "Life & Style"
 ];
@@ -30,7 +31,7 @@ const [showPassword, setShowPassword] = useState({ old: false, new: false });
 
 
   useEffect(() => {
-    fetch("http://localhost:8000/user/profile", { credentials: "include" })
+    fetch(`${config.BACKEND_API}/user/profile`, { credentials: "include" })
       .then(res => res.json())
       .then(data => {
         setProfile(data);
@@ -41,7 +42,7 @@ const [showPassword, setShowPassword] = useState({ old: false, new: false });
       });
        
     
-    fetch("http://localhost:8000/user/stats", { credentials: "include" })
+    fetch(`${config.BACKEND_API}/user/stats`, { credentials: "include" })
       .then(res => res.json())
       .then(data => setStats(data));
   }, []);
@@ -52,7 +53,7 @@ const [showPassword, setShowPassword] = useState({ old: false, new: false });
     setUploading(true);
     const formData = new FormData();
     formData.append("avatar", file);
-    const res = await fetch("http://localhost:8000/user/avatar", {
+    const res = await fetch(`${config.BACKEND_API}/user/avatar`, {
       method: "POST",
       credentials: "include",
       body: formData,
@@ -64,7 +65,7 @@ const [showPassword, setShowPassword] = useState({ old: false, new: false });
 
   const handleEditProfile = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:8000/user/profile", {
+    const res = await fetch(`${config.BACKEND_API}/user/profile`, {
       method: "PUT",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -81,7 +82,7 @@ const [showPassword, setShowPassword] = useState({ old: false, new: false });
     showError("Password must be at least 8 characters, include a number and a special character.");
     return;
   }
-    const res = await fetch("http://localhost:8000/user/change-password", {
+    const res = await fetch(`${config.BACKEND_API}/user/change-password`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -97,7 +98,7 @@ const [showPassword, setShowPassword] = useState({ old: false, new: false });
     }
   };
   useEffect(() => {
-    fetch("http://localhost:8000/user/profile", { credentials: "include" })
+    fetch(`${config.BACKEND_API}/user/profile`, { credentials: "include" })
       .then(res => res.json())
       .then(data => {
         setProfile(data);
@@ -126,7 +127,7 @@ const handleSaveInterests = async (e) => {
   }
   setSavingInterests(true);
   try {
-    const res = await fetch("http://localhost:8000/user/interests", {
+    const res = await fetch(`${config.BACKEND_API}/user/interests`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -169,7 +170,7 @@ const handleUnsubscribe = () => {
               className="profile-avatar"
               src={
                 profile.avatarUrl
-                  ? "http://localhost:8000" + profile.avatarUrl
+                  ? `${config.BACKEND_API}` + profile.avatarUrl
                   : `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.name)}`
               }
               alt="avatar"

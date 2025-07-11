@@ -5,6 +5,7 @@ import { FaShareAlt } from "react-icons/fa";
 import { showSuccess } from "./toast";
 import "./CSS/App.css";
 import Comments from "./Comments";
+import config from "../config";
 
 function NewsFeed({
   category,
@@ -51,7 +52,7 @@ function NewsFeed({
     setLoading(true);
     setError("");
     try {
-      let url = `http://localhost:8000/api/news?category=${getApiCategory(cat)}`;
+      let url = `${config.BACKEND_API}/api/news?category=${getApiCategory(cat)}`;
       if (q) url += `&q=${encodeURIComponent(q)}`;
       const res = await fetch(url);
       const data = await res.json();
@@ -84,7 +85,7 @@ function NewsFeed({
 
   // Fetch recommendations on mount
   useEffect(() => {
-    fetch("http://localhost:8000/api/recommendations", { credentials: "include" })
+    fetch(`${config.BACKEND_API}/api/recommendations`, { credentials: "include" })
       .then(res => res.json())
       .then(data => setRecommendations(data.recommendations || []));
   }, []);
@@ -99,14 +100,14 @@ function NewsFeed({
     setError("");
     try {
       const res = await fetch(
-        `http://localhost:8000/api/news/search?q=${encodeURIComponent(q)}`
+        `${config.BACKEND_API}/api/news/search?q=${encodeURIComponent(q)}`
       );
       const data = await res.json();
       if (res.ok) {
         setNews(data.articles || []);
         if (data.articles) {
           data.articles.forEach(article => {
-            fetch("http://localhost:8000/api/activity", {
+            fetch(`${config.BACKEND_API}/api/activity`, {
               method: "POST",
               credentials: "include",
               headers: { "Content-Type": "application/json" },
@@ -136,13 +137,13 @@ function NewsFeed({
   // Like Handler
   const handleLike = async (idx) => {
     const article = news[idx];
-    await fetch("http://localhost:8000/user/like", {
+    await fetch(`${config.BACKEND_API}/user/like`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ article }),
     });
-    fetch("http://localhost:8000/api/activity", {
+    fetch(`${config.BACKEND_API}/api/activity`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -156,13 +157,13 @@ function NewsFeed({
   // Bookmark Handler
   const handleBookmark = async (idx) => {
     const article = news[idx];
-    await fetch("http://localhost:8000/user/bookmark", {
+    await fetch(`${config.BACKEND_API}/user/bookmark`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ article }),
     });
-    fetch("http://localhost:8000/api/activity", {
+    fetch(`${config.BACKEND_API}/api/activity`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },

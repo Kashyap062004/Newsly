@@ -5,6 +5,7 @@ import { showSuccess } from "./toast";
 import image from "./images/image.png";
 import { FaShareAlt } from "react-icons/fa";
 import "./CSS/bookmark.css"
+import config from "../config";
 
 export default function BookmarkedArticles({
   category,
@@ -18,7 +19,7 @@ export default function BookmarkedArticles({
   const [hoveredIdx, setHoveredIdx] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8000/user/bookmarks", { credentials: "include" })
+    fetch(`${config.BACKEND_API}/user/bookmarks`, { credentials: "include" })
       .then((res) => res.json())
       .then((data) => {
         setArticles(data.bookmarkedArticles || []);
@@ -27,7 +28,7 @@ export default function BookmarkedArticles({
   }, []);
 
   const handleDelete = async (url) => {
-    await fetch("http://localhost:8000/user/bookmark", {
+    await fetch(`${config.BACKEND_API}/user/bookmark`, {
       method: "DELETE",
       credentials: "include",
       headers: { "Content-Type": "application/json" },

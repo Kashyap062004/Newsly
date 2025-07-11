@@ -3,6 +3,7 @@ import "./CSS/Profile.css";
 import "./CSS/App.css"
 import { showSuccess, showError } from "./toast";
 import { isValidPassword } from "../utils/passwordValidation";
+import config from "../config";
 export default function ForgotPasswordModal({ show, onClose }) {
   const [forgotStep, setForgotStep] = useState(1);
   const [forgotEmail, setForgotEmail] = useState("");
@@ -22,7 +23,7 @@ export default function ForgotPasswordModal({ show, onClose }) {
           e.preventDefault();
           if (forgotStep === 1) {
             // Request OTP
-            const res = await fetch("http://localhost:8000/user/forgot-password", {
+            const res = await fetch(`${config.BACKEND_API}/user/forgot-password`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ email: forgotEmail }),
@@ -41,7 +42,7 @@ export default function ForgotPasswordModal({ show, onClose }) {
               showError("Password must be at least 8 characters, include a number and a special character.");
               return;
             }
-            const res = await fetch("http://localhost:8000/user/reset-password", {
+            const res = await fetch(`${config.BACKEND_API}/user/reset-password`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ email: forgotEmail, otp: forgotOtp, password: forgotNewPass }),

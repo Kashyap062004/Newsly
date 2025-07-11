@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { showSuccess, showError } from "./toast";
 import { isValidPassword } from "../utils/passwordValidation";
+import config from "../config";
 function Signup({ onSignup }) {
   const [step, setStep] = useState(1);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -19,7 +20,7 @@ function Signup({ onSignup }) {
     showError("Password must be at least 8 characters, include a number and a special character.");
     return;
   }
-    const res = await fetch("http://localhost:8000/user", {
+    const res = await fetch(`${config.BACKEND_API}/user`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
@@ -39,7 +40,7 @@ function Signup({ onSignup }) {
     e.preventDefault();
     setError("");
     setSuccess("");
-    const res = await fetch("http://localhost:8000/user/verify-otp", {
+    const res = await fetch(`${config.BACKEND_API}/user/verify-otp`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...form, otp }),

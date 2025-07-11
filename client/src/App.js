@@ -9,6 +9,7 @@ import BookmarkedArticles from "./components/BookmarkedArticles";
 import DarkModeToggle from "./components/DarkModeToggle";
 import { ToastContainer } from "react-toastify";
 import ChatBot from "./components/ChatBot";
+import config from "./config";
 
 // import PaymentButton from './components/PaymentButton';
 function App() {
@@ -32,7 +33,7 @@ const handleChatBotRequest = (msg) => {
  
 useEffect(() => {
   // Check login status on mount
-  fetch("http://localhost:8000/user/me", {
+  fetch(`${config.BACKEND_API}/user/me`, {
     credentials: "include"
   })
     .then(res => res.json())
@@ -166,7 +167,7 @@ useEffect(() => {
       <ChatBot
       ref={chatBotRef}
         onSend={async (message) => {
-          const res = await fetch('http://localhost:8000/api/ai/chat', {
+          const res = await fetch(`${config.BACKEND_API}/api/ai/chat`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message }),

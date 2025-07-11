@@ -1,8 +1,12 @@
 import React from "react";
+import config from "../config";
 const razorpayKey = process.env.REACT_APP_RAZOR_PAY_KEY;
+
+
+
 export default function PaymentButton({ email }) {
   const handlePayment = async () => {
-    const res = await fetch("http://localhost:8000/api/payment/create-order", {
+    const res = await fetch(`${config.BACKEND_API}/api/payment/create-order`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +26,7 @@ export default function PaymentButton({ email }) {
       order_id: order.id,
       handler: async function (response) {
         try {
-          const verifyRes = await fetch("http://localhost:8000/api/payment/verify", {
+          const verifyRes = await fetch(`${config.BACKEND_API}/api/payment/verify`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

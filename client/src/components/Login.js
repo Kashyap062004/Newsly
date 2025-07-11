@@ -4,7 +4,7 @@ import ForgotPasswordModal from "./ForgotPasswordModal"; // <-- import the modal
 import "./CSS/App.css"; // <-- import your CSS\
 // import { useLocation } from "react-router-dom";
 
-
+import config from "../config";
 import "./CSS/Profile.css"
 function Login({ onLogin }) {
   const [email, setEmail] = useState("");
@@ -20,7 +20,7 @@ function Login({ onLogin }) {
     e.preventDefault();
     setError("");
     try {
-      const res = await fetch("http://localhost:8000/user/login", {
+      const res = await fetch(`${config.BACKEND_API}/user/login`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -76,7 +76,7 @@ function Login({ onLogin }) {
           type="button"
           className="login-with-google-btn"
           onClick={() => {
-            window.location.href = "http://localhost:8000/user/google";
+            window.location.href = `${config.BACKEND_API}/user/google`;
           }}
         >
           Continue with Google
