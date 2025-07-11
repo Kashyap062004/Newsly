@@ -21,7 +21,7 @@ if (!fs.existsSync(uploadDir)) {
 }
 router.get('/google/callback',
   passport.authenticate('google', {
-    failureRedirect: 'http://localhost:3000', // or your login page
+    failureRedirect: process.env.FRONTEND_URL, // or your login page
     session: true
   }),
   (req, res) => {
@@ -36,7 +36,7 @@ router.get('/google/callback',
       secure: false
     });
     // Redirect to frontend
-    res.redirect('http://localhost:3000');
+    res.redirect(process.env.FRONTEND_URL);
   }
 );
 

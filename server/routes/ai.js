@@ -55,7 +55,7 @@ async function extractArticleContent(url) {
 // Example function to get top news headlines (customize for your app)
 async function getTopHeadlines(category = "general", limit = 5) {
   try {
-    const response = await axios.get(`http://localhost:3000/api/news/top?category=${category}&limit=${limit}`);
+    const response = await axios.get(`${process.env.FRONTEND_URL}/api/news/top?category=${category}&limit=${limit}`);
     const news = response.data.articles || []; // Adjust based on your app's response
     return news.slice(0, limit).map((item, index) => `${index + 1}. ${item.title}`).join("\n");
   } catch (err) {

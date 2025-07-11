@@ -27,7 +27,7 @@ function generateEmailHtml(articles,user) {
     
   `).join('')}
 
-   <a href="http://localhost:3000/" 
+   <a href=process.env.FRONTEND_URL 
          style="display:inline-block; margin:24px 0 0 0; padding:10px 24px; background:#1976d2; color:#fff; border-radius:6px; text-decoration:none; font-weight:bold; font-size:16px;">
          More News
       </a>
