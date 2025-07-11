@@ -25,7 +25,6 @@ const { User } = require("./models/user");
 
 // app.use(cors());
 app.use(cors({
-  origin: 'http://localhost:3000', // ✅ specific allowed origin
   credentials: true                // ✅ allow cookies/token
 }));
 
@@ -112,7 +111,7 @@ const redirectUrl = isNewUser
   : `${process.env.FRONTEND_URL}/login`;
 
 res.redirect(redirectUrl);
-    res.redirect('http://localhost:3000');
+    res.redirect(process.env.FRONTEND_URL);
   }
 );
 
@@ -130,6 +129,10 @@ router.get("/", authMiddleware, async (req, res) => {
 
 const activityRoutes = require("./routes/activity");
 app.use("/api/activity", activityRoutes);
+
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
 
 const commentRoutes = require("./routes/comment");
 app.use("/api/comments", commentRoutes);
