@@ -23,10 +23,10 @@ const { User } = require("./models/user");
 //   credentials: true
 // }));
 
-// app.use(cors());
-app.use(cors({
-  credentials: true                // ✅ allow cookies/token
-}));
+app.use(cors());
+// app.use(cors({
+//   credentials: true                // ✅ allow cookies/token
+// }));
 
 // app.use(express.json());
 app.use('/api/payment/webhook', express.raw({ type: 'application/json' }));
