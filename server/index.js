@@ -22,7 +22,7 @@ const { User } = require("./models/user");
 app.use(cors({
     origin: 'https://newsly-live.netlify.app' || 'http://localhost:3000',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    // allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
 
