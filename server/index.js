@@ -19,22 +19,12 @@ const { getUser ,setUser} = require("./service/auth");
 
 const { User } = require("./models/user");
 
-// app.use(cors({
-//   origin: 'http://localhost:3000',
-//   credentials: true
-// }));
-
-// app.use(cors());
-// app.use(cors({
-//   credentials: true                // ✅ allow cookies/token
-// }));
-
-const corsOptions = {
-  origin: 'https://newsly-live.netlify.app',
-  credentials: true
-};
-
-app.use(cors(corsOptions));
+app.use(cors({
+    origin: 'https://newsly-live.netlify.app' || 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}));
 
 // app.use(express.json());
 app.use('/api/payment/webhook', express.raw({ type: 'application/json' }));
